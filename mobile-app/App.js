@@ -26,7 +26,13 @@ import Announcements from './pages/Announcements';
 import Header from './components/Header';
 import SideMenu from './components/Menu';
 import Donations from './pages/Donations';
-import Appoitment from './pages/Appoitment';
+import Appoitment from './pages/process/Appoitment';
+import Form1 from './pages/process/Form1';
+import Form2 from './pages/process/Form2';
+import Form3 from './pages/process/Form3';
+import Form4 from './pages/process/Form4';
+import Form5 from './pages/process/Form5';
+import Form6 from './pages/process/Form6';
 
 const Stack = createNativeStackNavigator();
 export default function App() {
@@ -84,7 +90,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName='Announcements'
+        initialRouteName='Start'
         screenOptions={{ headerShown: false }}
       >
         <Stack.Screen name='Home' component={HomeScreen} />
@@ -124,7 +130,78 @@ export default function App() {
               border: 'none',
             },
             headerShadowVisible: false, // applied here
-            headerBackVisible: false,
+          }}
+        />
+        <Stack.Screen
+          name='Form1'
+          component={Form1}
+          options={{
+            title: '',
+            headerStyle: {
+              backgroundColor: '#ffffff',
+              border: 'none',
+            },
+            headerShadowVisible: false, // applied here
+          }}
+        />
+        <Stack.Screen
+          name='Form2'
+          component={Form2}
+          options={{
+            title: '',
+            headerStyle: {
+              backgroundColor: '#ffffff',
+              border: 'none',
+            },
+            headerShadowVisible: false, // applied here
+          }}
+        />
+        <Stack.Screen
+          name='Form3'
+          component={Form3}
+          options={{
+            title: '',
+            headerStyle: {
+              backgroundColor: '#ffffff',
+              border: 'none',
+            },
+            headerShadowVisible: false, // applied here
+          }}
+        />
+        <Stack.Screen
+          name='Form4'
+          component={Form4}
+          options={{
+            title: '',
+            headerStyle: {
+              backgroundColor: '#ffffff',
+              border: 'none',
+            },
+            headerShadowVisible: false, // applied here
+          }}
+        />
+        <Stack.Screen
+          name='Form5'
+          component={Form5}
+          options={{
+            title: '',
+            headerStyle: {
+              backgroundColor: '#ffffff',
+              border: 'none',
+            },
+            headerShadowVisible: false, // applied here
+          }}
+        />
+        <Stack.Screen
+          name='Form6'
+          component={Form6}
+          options={{
+            title: '',
+            headerStyle: {
+              backgroundColor: '#ffffff',
+              border: 'none',
+            },
+            headerShadowVisible: false, // applied here
           }}
         />
         <Stack.Screen

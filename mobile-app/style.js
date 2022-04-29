@@ -35,6 +35,12 @@ export default StyleSheet.create({
     fontWeight: '400',
     // lineHeight: 20,
   },
+  BaseBold: {
+    fontSize: 16,
+    fontFamily: 'Outfit_700Bold',
+    fontWeight: '700',
+    // lineHeight: 20,
+  },
   Link: {
     fontSize: 16,
     fontFamily: 'Outfit_600SemiBold',
