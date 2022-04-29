@@ -25,9 +25,9 @@ export default StyleSheet.create({
     fontWeight: '700',
   },
   Subtitle: {
-    fontFamily: 'Fraunces_700SemiBold',
-    fontSize: 28,
-    fontWeight: '700',
+    fontFamily: 'Fraunces_600SemiBold',
+    fontSize: 18,
+    fontWeight: '600',
   },
   Base: {
     fontSize: 16,
@@ -53,10 +53,9 @@ export default StyleSheet.create({
     fontFamily: 'Outfit_400Regular',
     fontWeight: '400',
     // lineHeight: 20,
-    textAlign: 'center',
   },
   ButtonText: {
-    fontSize: 20,
+    fontSize: 18,
     fontFamily: 'Outfit_500Medium',
     fontWeight: '500',
     // lineHeight: 24,

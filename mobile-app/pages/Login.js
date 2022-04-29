@@ -15,7 +15,7 @@ const Login = ({ navigation }) => {
         <Input placeholder={'Password'} label='Password' secureTextEntry />
       </View>
       <View style={styles.Welcome}>
-        <CustomButton title={'Login'} />
+              <CustomButton title={'Login'} onPress={ () => navigation.navigate('Announcements')}/>
         <View style={[styles.RegisterOption]}>
           <Text style={theme.Base}>Don't have an account? </Text>
           <View styles={styles.RegisterButton}>

@@ -19,9 +19,14 @@ import * as Font from 'expo-font';
 import Register from './pages/Register';
 import Login from './pages/Login';
 import React, { useState, useEffect } from 'react';
-import LottieView from 'lottie-react-native';
-import { View, Text } from 'react-native';
-import theme from './style.js';
+// import LottieView from 'lottie-react-native';
+import { View, Text, StyleSheet } from 'react-native';
+import theme, { colors } from './style.js';
+import Announcements from './pages/Announcements';
+import Header from './components/Header';
+import SideMenu from './components/Menu';
+import Donations from './pages/Donations';
+import Appoitment from './pages/Appoitment';
 
 const Stack = createNativeStackNavigator();
 export default function App() {
@@ -51,7 +56,9 @@ export default function App() {
     await Font.loadAsync(customFonts).then(() => setLoaded(true));
   };
 
-  loadFontsAsync();
+  React.useEffect(() => {
+    loadFontsAsync();
+  }, []);
 
   if (!fontsLoaded) {
     return (
@@ -76,8 +83,50 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName='Start'>
+      <Stack.Navigator
+        initialRouteName='Announcements'
+        screenOptions={{ headerShown: false }}
+      >
         <Stack.Screen name='Home' component={HomeScreen} />
+        <Stack.Screen
+          name='Announcements'
+          component={Announcements}
+          options={{
+            title: '',
+            headerStyle: {
+              backgroundColor: '#ffffff',
+              border: 'none',
+            },
+            headerShadowVisible: false, // applied here
+            headerBackVisible: false,
+          }}
+        />
+        <Stack.Screen
+          name='Donations'
+          component={Donations}
+          options={{
+            title: '',
+            headerStyle: {
+              backgroundColor: '#ffffff',
+              border: 'none',
+            },
+            headerShadowVisible: false, // applied here
+            headerBackVisible: false,
+          }}
+        />
+        <Stack.Screen
+          name='Appointment'
+          component={Appoitment}
+          options={{
+            title: '',
+            headerStyle: {
+              backgroundColor: '#ffffff',
+              border: 'none',
+            },
+            headerShadowVisible: false, // applied here
+            headerBackVisible: false,
+          }}
+        />
         <Stack.Screen
           name='Start'
           component={Start}
@@ -112,6 +161,19 @@ export default function App() {
               border: 'none',
             },
             headerShadowVisible: false, // applied here
+          }}
+        />
+        <Stack.Screen
+          name='Menu'
+          component={SideMenu}
+          options={{
+            title: '',
+            headerStyle: {
+              backgroundColor: '#ffffff',
+              border: 'none',
+            },
+            headerShadowVisible: false, // applied here
+            headerBackVisible: false,
           }}
         />
       </Stack.Navigator>

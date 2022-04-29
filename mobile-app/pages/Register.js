@@ -4,7 +4,7 @@ import CustomButton from '../components/Button.js';
 import Input from '../components/Input.js';
 import theme, { colors } from '../style.js';
 
-const Register = () => {
+const Register = ({ navigation }) => {
   return (
     <View style={styles.Container}>
       <View style={styles.Welcome}>
@@ -21,7 +21,10 @@ const Register = () => {
         <Input placeholder={'Password'} label='Password' secureTextEntry />
       </View>
       <View style={styles.Welcome}>
-        <CustomButton title={'Register'} />
+        <CustomButton
+          title={'Register'}
+          onPress={() => navigation.navigate('Announcements')}
+        />
       </View>
       <View style={styles.Disclaimer}>
         <Text style={[theme.SmallText]}>
