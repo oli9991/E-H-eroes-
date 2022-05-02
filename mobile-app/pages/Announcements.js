@@ -13,47 +13,72 @@ import { Icon } from 'react-native-elements';
 import Header from '../components/Header.js';
 import theme, { colors } from '../style.js';
 
-export default function Announcements() {
+export default function Announcements({ navigation }) {
   const list = [
     {
+      id: 0,
       title: 'Donna Regali',
       location: 'Saint Bernard Hospital, Angel Street 21',
-      info: ' Donna needs donations for AB blood type. She has been in a car accident and has three previous incidents.',
+      info: 'Donna needs donations for AB blood type. She has been in a car accident and has three previous incidents.',
+      bloodInfo: 'A(I), Rh+',
+      fullInfo:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas et luctus turpis. Nam fermentum a dolor eget semper. Vestibulum eu erat id ante fermentum efficitur eu at ligula. Ut gravida orci in cursus pellentesque. Proin a malesuada quam. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nulla facilisi. Morbi placerat justo in purus ultricies accumsan.',
     },
     {
+      id: 1,
       title: 'Donna Regali',
       location: 'Saint Bernard Hospital, Angel Street 21',
-      info: ' Donna needs donations for AB blood type. She has been in a car accident and has three previous incidents.',
+      info: 'Donna needs donations for AB blood type. She has been in a car accident and has three previous incidents.',
+      bloodInfo: 'A(I), Rh+',
+      fullInfo:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas et luctus turpis. Nam fermentum a dolor eget semper. Vestibulum eu erat id ante fermentum efficitur eu at ligula. Ut gravida orci in cursus pellentesque. Proin a malesuada quam. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nulla facilisi. Morbi placerat justo in purus ultricies accumsan.',
     },
     {
+      id: 2,
       title: 'Donna Regali',
       location: 'Saint Bernard Hospital, Angel Street 21',
-      info: ' Donna needs donations for AB blood type. She has been in a car accident and has three previous incidents.',
+      info: 'Donna needs donations for AB blood type. She has been in a car accident and has three previous incidents.',
+      bloodInfo: 'A(I), Rh+',
+      fullInfo:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas et luctus turpis. Nam fermentum a dolor eget semper. Vestibulum eu erat id ante fermentum efficitur eu at ligula. Ut gravida orci in cursus pellentesque. Proin a malesuada quam. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nulla facilisi. Morbi placerat justo in purus ultricies accumsan.',
     },
     {
+      id: 3,
       title: 'Donna Regali',
       location: 'Saint Bernard Hospital, Angel Street 21',
-      info: ' Donna needs donations for AB blood type. She has been in a car accident and has three previous incidents.',
+      info: 'Donna needs donations for AB blood type. She has been in a car accident and has three previous incidents.',
+      bloodInfo: 'A(I), Rh+',
+      fullInfo:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas et luctus turpis. Nam fermentum a dolor eget semper. Vestibulum eu erat id ante fermentum efficitur eu at ligula. Ut gravida orci in cursus pellentesque. Proin a malesuada quam. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nulla facilisi. Morbi placerat justo in purus ultricies accumsan.',
     },
     {
+      id: 4,
       title: 'Donna Regali',
       location: 'Saint Bernard Hospital, Angel Street 21',
-      info: ' Donna needs donations for AB blood type. She has been in a car accident and has three previous incidents.',
+      info: 'Donna needs donations for AB blood type. She has been in a car accident and has three previous incidents.',
+      bloodInfo: 'A(I), Rh+',
+      fullInfo:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas et luctus turpis. Nam fermentum a dolor eget semper. Vestibulum eu erat id ante fermentum efficitur eu at ligula. Ut gravida orci in cursus pellentesque. Proin a malesuada quam. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nulla facilisi. Morbi placerat justo in purus ultricies accumsan.',
     },
   ];
   return (
     <View style={styles.Container}>
-      <Header title={'Announcements'} />
+      <Header
+        title={'Announcements'}
+        onAdd={() => navigation.navigate('AddAnnouncement')}
+      />
       <ScrollView style={styles.List}>
         {list &&
           list.map((item, index) => (
             <View style={styles.Card} key={index}>
-              <TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('Announcement', { item })}
+              >
                 <View style={styles.Frame6}>
                   <Text style={[theme.Title, styles.Title]}>{item.title}</Text>
                   <Text style={theme.base}>{item.location}</Text>
                 </View>
-                <View style={styles.Frame7}>
+                <View style={styles.Frame6}>
                   <Text style={[theme.ButtonText, styles.Info]}>
                     Short Information
                   </Text>
@@ -87,8 +112,8 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     // justifyContent: 'flex-start',
     // alignItems: 'flex-start',
-    paddingLeft: '5%',
-    paddingRight: '5%',
+    paddingLeft: 10,
+    paddingRight: '2.5%',
     width: '100%',
     height: '100%',
     // overflow: 'auto',

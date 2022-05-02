@@ -19,7 +19,7 @@ function Appoitment({ navigation }) {
       <View style={styles.Form}>
         <Input placeholder={'Your full name'} label='Full Name' />
         <Input placeholder={'Email address'} label='Email' />
-        <Input placeholder={'18-90'} label='Age' />
+        <Input placeholder={'18-90'} label='Age' keyboardType='numeric' />
         <Input placeholder={'Choose a date'} label='Time Slot' />
       </View>
 

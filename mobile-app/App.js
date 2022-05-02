@@ -33,6 +33,8 @@ import Form3 from './pages/process/Form3';
 import Form4 from './pages/process/Form4';
 import Form5 from './pages/process/Form5';
 import Form6 from './pages/process/Form6';
+import Announcement from './pages/Announcement';
+import AddAnnouncement from './pages/AddAnnouncement';
 
 const Stack = createNativeStackNavigator();
 export default function App() {
@@ -89,10 +91,7 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator
-        initialRouteName='Start'
-        screenOptions={{ headerShown: false }}
-      >
+      <Stack.Navigator initialRouteName='Announcements'>
         <Stack.Screen name='Home' component={HomeScreen} />
         <Stack.Screen
           name='Announcements'
@@ -105,6 +104,22 @@ export default function App() {
             },
             headerShadowVisible: false, // applied here
             headerBackVisible: false,
+            headerShown: false,
+            exact: true,
+          }}
+        />
+        <Stack.Screen
+          name='AddAnnouncement'
+          component={AddAnnouncement}
+          options={{
+            title: '',
+            headerStyle: {
+              backgroundColor: '#ffffff',
+              border: 'none',
+            },
+            headerShadowVisible: false, // applied here
+            headerBackVisible: false,
+            // headerShown: false,
           }}
         />
         <Stack.Screen
@@ -118,6 +133,7 @@ export default function App() {
             },
             headerShadowVisible: false, // applied here
             headerBackVisible: false,
+            headerShown: false,
           }}
         />
         <Stack.Screen
@@ -129,6 +145,19 @@ export default function App() {
               backgroundColor: '#ffffff',
               border: 'none',
             },
+            headerShadowVisible: false, // applied here
+          }}
+        />
+        <Stack.Screen
+          name='Announcement'
+          component={Announcement}
+          options={{
+            title: '',
+            headerStyle: {
+              backgroundColor: '#ffffff',
+              border: 'none',
+            },
+            exact: true,
             headerShadowVisible: false, // applied here
           }}
         />
@@ -214,6 +243,7 @@ export default function App() {
               border: 'none',
             },
             headerShadowVisible: false, // applied here
+            headerShown: false,
           }}
         />
         <Stack.Screen
@@ -251,6 +281,7 @@ export default function App() {
             },
             headerShadowVisible: false, // applied here
             headerBackVisible: false,
+            headerShown: false,
           }}
         />
       </Stack.Navigator>
