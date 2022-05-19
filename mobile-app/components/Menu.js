@@ -4,6 +4,8 @@ import { useRoute, useNavigation } from '@react-navigation/native';
 import theme, { colors } from '../style.js';
 import { Icon } from 'react-native-elements';
 import CustomButton from './Button';
+import { auth } from '../utils/firebase.js';
+import { signOut } from 'firebase/auth';
 
 export default function SideMenu() {
   const navigation = useNavigation();
@@ -99,6 +101,18 @@ export default function SideMenu() {
               >
                 Blood stocks
               </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+        <View style={[styles.ParticlesMenuItem]}>
+          <View style={styles.Item}>
+            <TouchableOpacity
+              style={[styles.Label]}
+              onPress={() => {
+                signOut(auth).then(() => navigation.navigate('Start'));
+              }}
+            >
+              <Text style={[theme.MenuItem, styles.Logout]}>Logout</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -224,5 +238,10 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
     marginRight: 8,
+  },
+
+  Logout: {
+    marginTop: 32,
+    color: colors.orange,
   },
 });

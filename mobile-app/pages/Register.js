@@ -1,10 +1,20 @@
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { Formik } from 'formik';
 import React from 'react';
 import { StyleSheet, Image, Text, View, ImageBackground } from 'react-native';
 import CustomButton from '../components/Button.js';
 import Input from '../components/Input.js';
 import theme, { colors } from '../style.js';
+import { auth } from '../utils/firebase.js';
 
 const Register = ({ navigation }) => {
+  const handleRegister = (values) => {
+    const { email, password } = values;
+    createUserWithEmailAndPassword(auth, email, password).then((response) => {
+      navigation.navigate('Login');
+    });
+  };
+
   return (
     <View style={styles.Container}>
       <View style={styles.Welcome}>
@@ -14,18 +24,38 @@ const Register = ({ navigation }) => {
           humanitarian announcements and much more...
         </Text>
       </View>
-      <View style={styles.Form}>
-        <Input placeholder={'Your full name'} label='Name' />
-        <Input placeholder={'Your email address'} label='Address' />
-        <Input placeholder={'Your phone'} label='Phone' />
-        <Input placeholder={'Password'} label='Password' secureTextEntry />
-      </View>
-      <View style={styles.Welcome}>
-        <CustomButton
-          title={'Register'}
-          onPress={() => navigation.navigate('Announcements')}
-        />
-      </View>
+
+      <Formik
+        initialValues={{ email: 'example@gmail.com' }}
+        onSubmit={handleRegister}
+      >
+        {({ handleChange, handleBlur, handleSubmit, values }) => (
+          <>
+            <View style={styles.Form}>
+              {/* <Input placeholder={'Your full name'} label='Name' /> */}
+              <Input
+                placeholder={'Your email address'}
+                label='Address'
+                onChangeText={handleChange('email')}
+                onBlur={handleBlur('email')}
+                value={values.email}
+              />
+              {/* <Input placeholder={'Your phone'} label='Phone' /> */}
+              <Input
+                placeholder={'Password'}
+                label='Password'
+                onChangeText={handleChange('password')}
+                onBlur={handleBlur('password')}
+                value={values.password}
+                secureTextEntry
+              />
+            </View>
+            <View style={styles.Welcome}>
+              <CustomButton title={'Register'} onPress={handleSubmit} />
+            </View>
+          </>
+        )}
+      </Formik>
       <View style={styles.Disclaimer}>
         <Text style={[theme.SmallText]}>
           By signing into this application, you’re agreeing to our{' '}

@@ -1,37 +1,73 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { StyleSheet, Image, Text, View, ImageBackground } from 'react-native';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 import CustomButton from '../components/Button.js';
 import Input from '../components/Input.js';
 import theme from '../style.js';
+import { auth } from '../utils/firebase.js';
+import { Formik } from 'formik';
+import { AuthenticatedUserContext } from '../providers/AuthenticatedUserProvider.js';
 
 const Login = ({ navigation }) => {
+  const { user, setUser } = useContext(AuthenticatedUserContext);
+
+  const handleLogin = (values) => {
+    const { email, password } = values;
+    signInWithEmailAndPassword(auth, email, password).then((response) => {
+      setUser(response);
+      navigation.navigate('Announcements');
+    });
+  };
+
   return (
     <View style={styles.Container}>
       <View style={styles.Welcome}>
         <Text style={[theme.Title, styles.Txt145]}>Welcome back</Text>
       </View>
-      <View style={styles.Form}>
-        <Input placeholder={'Your email address'} label='Address' />
-        <Input placeholder={'Password'} label='Password' secureTextEntry />
-      </View>
-      <View style={styles.Welcome}>
-              <CustomButton title={'Login'} onPress={ () => navigation.navigate('Announcements')}/>
-        <View style={[styles.RegisterOption]}>
-          <Text style={theme.Base}>Don't have an account? </Text>
-          <View styles={styles.RegisterButton}>
-            <Text
-              style={[theme.Link, styles.RegisterLink]}
-              onPress={() => navigation.navigate('Register')}
-            >
-              Register now
-            </Text>
-            <Image
-              style={{ width: '100%', resizeMode: 'contain', height: 10 }}
-              source={require('../assets/image.png')}
-            />
-          </View>
-        </View>
-      </View>
+      <Formik
+        initialValues={{ email: 'example@gmail.com' }}
+        onSubmit={handleLogin}
+      >
+        {({ handleChange, handleBlur, handleSubmit, values }) => (
+          <>
+            <View style={styles.Form}>
+              <Input
+                placeholder={'Your email address'}
+                label='Address'
+                onChangeText={handleChange('email')}
+                onBlur={handleBlur('email')}
+                value={values.email}
+              />
+              <Input
+                placeholder={'Password'}
+                label='Password'
+                onChangeText={handleChange('password')}
+                onBlur={handleBlur('password')}
+                value={values.password}
+                secureTextEntry
+              />
+            </View>
+            <View style={styles.Welcome}>
+              <CustomButton title={'Login'} onPress={handleSubmit} />
+              <View style={[styles.RegisterOption]}>
+                <Text style={theme.Base}>Don't have an account? </Text>
+                <View styles={styles.RegisterButton}>
+                  <Text
+                    style={[theme.Link, styles.RegisterLink]}
+                    onPress={() => navigation.navigate('Register')}
+                  >
+                    Register now
+                  </Text>
+                  <Image
+                    style={{ width: '100%', resizeMode: 'contain', height: 10 }}
+                    source={require('../assets/image.png')}
+                  />
+                </View>
+              </View>
+            </View>
+          </>
+        )}
+      </Formik>
       <View style={styles.Disclaimer}>
         <Text style={[theme.SmallText]}>
           By signing into this application, you’re agreeing to our{' '}

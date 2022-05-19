@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
   StyleSheet,
   Image,
@@ -11,9 +11,12 @@ import {
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 import Header from '../components/Header.js';
+import { AuthenticatedUserContext } from '../providers/AuthenticatedUserProvider.js';
 import theme, { colors } from '../style.js';
 
 export default function Announcements({ navigation }) {
+  const { user, setUser } = useContext(AuthenticatedUserContext);
+
   const list = [
     {
       id: 0,
@@ -61,6 +64,10 @@ export default function Announcements({ navigation }) {
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas et luctus turpis. Nam fermentum a dolor eget semper. Vestibulum eu erat id ante fermentum efficitur eu at ligula. Ut gravida orci in cursus pellentesque. Proin a malesuada quam. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nulla facilisi. Morbi placerat justo in purus ultricies accumsan.',
     },
   ];
+
+  if (!user) {
+    navigation.navigate('Start');
+  }
   return (
     <View style={styles.Container}>
       <Header

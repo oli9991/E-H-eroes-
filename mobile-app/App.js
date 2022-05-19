@@ -18,7 +18,7 @@ import {
 import * as Font from 'expo-font';
 import Register from './pages/Register';
 import Login from './pages/Login';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 // import LottieView from 'lottie-react-native';
 import { View, Text, StyleSheet } from 'react-native';
 import theme, { colors } from './style.js';
@@ -35,21 +35,15 @@ import Form5 from './pages/process/Form5';
 import Form6 from './pages/process/Form6';
 import Announcement from './pages/Announcement';
 import AddAnnouncement from './pages/AddAnnouncement';
+import {
+  AuthenticatedUserContext,
+  AuthenticatedUserProvider,
+} from './providers';
 
 const Stack = createNativeStackNavigator();
 export default function App() {
   const [fontsLoaded, setLoaded] = useState(false);
-  //   let [_] = useFraunces({
-  //     Fraunces_700Bold,
-  //     Fraunces_600SemiBold,
-  //   });
-
-  //   let [outfit] = useFonts({
-  //     Outfit_400Regular,
-  //     Outfit_600SemiBold,
-  //     Outfit_500Medium,
-  //     Outfit_700Bold,
-  //   });
+  const { user } = useContext(AuthenticatedUserContext);
 
   const customFonts = {
     Fraunces_700Bold,
@@ -90,201 +84,203 @@ export default function App() {
   }
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName='Announcements'>
-        <Stack.Screen name='Home' component={HomeScreen} />
-        <Stack.Screen
-          name='Announcements'
-          component={Announcements}
-          options={{
-            title: '',
-            headerStyle: {
-              backgroundColor: '#ffffff',
-              border: 'none',
-            },
-            headerShadowVisible: false, // applied here
-            headerBackVisible: false,
-            headerShown: false,
-            exact: true,
-          }}
-        />
-        <Stack.Screen
-          name='AddAnnouncement'
-          component={AddAnnouncement}
-          options={{
-            title: '',
-            headerStyle: {
-              backgroundColor: '#ffffff',
-              border: 'none',
-            },
-            headerShadowVisible: false, // applied here
-            headerBackVisible: false,
-            // headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name='Donations'
-          component={Donations}
-          options={{
-            title: '',
-            headerStyle: {
-              backgroundColor: '#ffffff',
-              border: 'none',
-            },
-            headerShadowVisible: false, // applied here
-            headerBackVisible: false,
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name='Appointment'
-          component={Appoitment}
-          options={{
-            title: '',
-            headerStyle: {
-              backgroundColor: '#ffffff',
-              border: 'none',
-            },
-            headerShadowVisible: false, // applied here
-          }}
-        />
-        <Stack.Screen
-          name='Announcement'
-          component={Announcement}
-          options={{
-            title: '',
-            headerStyle: {
-              backgroundColor: '#ffffff',
-              border: 'none',
-            },
-            exact: true,
-            headerShadowVisible: false, // applied here
-          }}
-        />
-        <Stack.Screen
-          name='Form1'
-          component={Form1}
-          options={{
-            title: '',
-            headerStyle: {
-              backgroundColor: '#ffffff',
-              border: 'none',
-            },
-            headerShadowVisible: false, // applied here
-          }}
-        />
-        <Stack.Screen
-          name='Form2'
-          component={Form2}
-          options={{
-            title: '',
-            headerStyle: {
-              backgroundColor: '#ffffff',
-              border: 'none',
-            },
-            headerShadowVisible: false, // applied here
-          }}
-        />
-        <Stack.Screen
-          name='Form3'
-          component={Form3}
-          options={{
-            title: '',
-            headerStyle: {
-              backgroundColor: '#ffffff',
-              border: 'none',
-            },
-            headerShadowVisible: false, // applied here
-          }}
-        />
-        <Stack.Screen
-          name='Form4'
-          component={Form4}
-          options={{
-            title: '',
-            headerStyle: {
-              backgroundColor: '#ffffff',
-              border: 'none',
-            },
-            headerShadowVisible: false, // applied here
-          }}
-        />
-        <Stack.Screen
-          name='Form5'
-          component={Form5}
-          options={{
-            title: '',
-            headerStyle: {
-              backgroundColor: '#ffffff',
-              border: 'none',
-            },
-            headerShadowVisible: false, // applied here
-          }}
-        />
-        <Stack.Screen
-          name='Form6'
-          component={Form6}
-          options={{
-            title: '',
-            headerStyle: {
-              backgroundColor: '#ffffff',
-              border: 'none',
-            },
-            headerShadowVisible: false, // applied here
-          }}
-        />
-        <Stack.Screen
-          name='Start'
-          component={Start}
-          options={{
-            title: '',
-            headerStyle: {
-              backgroundColor: '#ffffff',
-              border: 'none',
-            },
-            headerShadowVisible: false, // applied here
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name='Register'
-          component={Register}
-          options={{
-            title: '',
-            headerStyle: {
-              backgroundColor: '#ffffff',
-              border: 'none',
-            },
-            headerShadowVisible: false, // applied here
-          }}
-        />
-        <Stack.Screen
-          name='Login'
-          component={Login}
-          options={{
-            title: '',
-            headerStyle: {
-              backgroundColor: '#ffffff',
-              border: 'none',
-            },
-            headerShadowVisible: false, // applied here
-          }}
-        />
-        <Stack.Screen
-          name='Menu'
-          component={SideMenu}
-          options={{
-            title: '',
-            headerStyle: {
-              backgroundColor: '#ffffff',
-              border: 'none',
-            },
-            headerShadowVisible: false, // applied here
-            headerBackVisible: false,
-            headerShown: false,
-          }}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <AuthenticatedUserProvider>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName={user ? 'Donations' : 'Start'}>
+          <Stack.Screen name='Home' component={HomeScreen} />
+          <Stack.Screen
+            name='Announcements'
+            component={Announcements}
+            options={{
+              title: '',
+              headerStyle: {
+                backgroundColor: '#ffffff',
+                border: 'none',
+              },
+              headerShadowVisible: false, // applied here
+              headerBackVisible: false,
+              headerShown: false,
+              exact: true,
+            }}
+          />
+          <Stack.Screen
+            name='AddAnnouncement'
+            component={AddAnnouncement}
+            options={{
+              title: '',
+              headerStyle: {
+                backgroundColor: '#ffffff',
+                border: 'none',
+              },
+              headerShadowVisible: false, // applied here
+              headerBackVisible: false,
+              // headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name='Donations'
+            component={Donations}
+            options={{
+              title: '',
+              headerStyle: {
+                backgroundColor: '#ffffff',
+                border: 'none',
+              },
+              headerShadowVisible: false, // applied here
+              headerBackVisible: false,
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name='Appointment'
+            component={Appoitment}
+            options={{
+              title: '',
+              headerStyle: {
+                backgroundColor: '#ffffff',
+                border: 'none',
+              },
+              headerShadowVisible: false, // applied here
+            }}
+          />
+          <Stack.Screen
+            name='Announcement'
+            component={Announcement}
+            options={{
+              title: '',
+              headerStyle: {
+                backgroundColor: '#ffffff',
+                border: 'none',
+              },
+              exact: true,
+              headerShadowVisible: false, // applied here
+            }}
+          />
+          <Stack.Screen
+            name='Form1'
+            component={Form1}
+            options={{
+              title: '',
+              headerStyle: {
+                backgroundColor: '#ffffff',
+                border: 'none',
+              },
+              headerShadowVisible: false, // applied here
+            }}
+          />
+          <Stack.Screen
+            name='Form2'
+            component={Form2}
+            options={{
+              title: '',
+              headerStyle: {
+                backgroundColor: '#ffffff',
+                border: 'none',
+              },
+              headerShadowVisible: false, // applied here
+            }}
+          />
+          <Stack.Screen
+            name='Form3'
+            component={Form3}
+            options={{
+              title: '',
+              headerStyle: {
+                backgroundColor: '#ffffff',
+                border: 'none',
+              },
+              headerShadowVisible: false, // applied here
+            }}
+          />
+          <Stack.Screen
+            name='Form4'
+            component={Form4}
+            options={{
+              title: '',
+              headerStyle: {
+                backgroundColor: '#ffffff',
+                border: 'none',
+              },
+              headerShadowVisible: false, // applied here
+            }}
+          />
+          <Stack.Screen
+            name='Form5'
+            component={Form5}
+            options={{
+              title: '',
+              headerStyle: {
+                backgroundColor: '#ffffff',
+                border: 'none',
+              },
+              headerShadowVisible: false, // applied here
+            }}
+          />
+          <Stack.Screen
+            name='Form6'
+            component={Form6}
+            options={{
+              title: '',
+              headerStyle: {
+                backgroundColor: '#ffffff',
+                border: 'none',
+              },
+              headerShadowVisible: false, // applied here
+            }}
+          />
+          <Stack.Screen
+            name='Start'
+            component={Start}
+            options={{
+              title: '',
+              headerStyle: {
+                backgroundColor: '#ffffff',
+                border: 'none',
+              },
+              headerShadowVisible: false, // applied here
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name='Register'
+            component={Register}
+            options={{
+              title: '',
+              headerStyle: {
+                backgroundColor: '#ffffff',
+                border: 'none',
+              },
+              headerShadowVisible: false, // applied here
+            }}
+          />
+          <Stack.Screen
+            name='Login'
+            component={Login}
+            options={{
+              title: '',
+              headerStyle: {
+                backgroundColor: '#ffffff',
+                border: 'none',
+              },
+              headerShadowVisible: false, // applied here
+            }}
+          />
+          <Stack.Screen
+            name='Menu'
+            component={SideMenu}
+            options={{
+              title: '',
+              headerStyle: {
+                backgroundColor: '#ffffff',
+                border: 'none',
+              },
+              headerShadowVisible: false, // applied here
+              headerBackVisible: false,
+              headerShown: false,
+            }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </AuthenticatedUserProvider>
   );
 }
