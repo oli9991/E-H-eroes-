@@ -19,7 +19,9 @@ const Announcement = (props) => {
       </View>
       <View style={styles.Frame6}>
         <Text style={[theme.ButtonText, styles.Info]}>Blood Type</Text>
-        <Text style={theme.base}>{item.bloodInfo}</Text>
+        <Text style={theme.base}>
+          {item.bloodType}, {item.rh}
+        </Text>
       </View>
       <View style={styles.Frame6}>
         <CustomButton
@@ -55,7 +57,7 @@ const styles = StyleSheet.create({
   },
 
   Title: {
-    marginBottom: 8,
+    // marginBottom: 8,
   },
 
   Frame6: {

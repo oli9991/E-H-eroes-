@@ -1,15 +1,17 @@
 import React, { useEffect } from 'react';
-import { StyleSheet, Image, Text, View, TouchableOpacity } from 'react-native';
-import { useRoute, useNavigation } from '@react-navigation/native';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import theme, { colors } from '../style.js';
 import { Icon } from 'react-native-elements';
-import CustomButton from './Button';
-import { auth } from '../utils/firebase.js';
-import { signOut } from 'firebase/auth';
+import { signOut, getAuth } from 'firebase/auth';
 
 export default function SideMenu() {
   const navigation = useNavigation();
   const route = navigation.getState().routes[0].name;
+  const auth = getAuth();
+  const user = auth.currentUser;
+
+  console.log(user);
 
   useEffect(() => {
     console.log(route, navigation.getState(), navigation);
@@ -20,7 +22,7 @@ export default function SideMenu() {
       <View style={styles.TableViewRow}>
         <View style={styles.Container}>
           <View style={styles.Labels}>
-            <Text style={theme.Title}>David Coon</Text>
+            <Text style={theme.Title}>{user.displayName || user.email}</Text>
           </View>
         </View>
         <Icon

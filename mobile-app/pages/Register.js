@@ -1,4 +1,8 @@
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import {
+  createUserWithEmailAndPassword,
+  getAuth,
+  updateProfile,
+} from 'firebase/auth';
 import { Formik } from 'formik';
 import React from 'react';
 import { StyleSheet, Image, Text, View, ImageBackground } from 'react-native';
@@ -10,9 +14,18 @@ import { auth } from '../utils/firebase.js';
 const Register = ({ navigation }) => {
   const handleRegister = (values) => {
     const { email, password } = values;
-    createUserWithEmailAndPassword(auth, email, password).then((response) => {
-      navigation.navigate('Login');
-    });
+    createUserWithEmailAndPassword(auth, email, password)
+      .then(() => {
+        const auth = getAuth();
+        const user = auth.currentUser;
+
+        updateProfile(user, {
+          displayName: values.name,
+        });
+      })
+      .then(() => {
+        navigation.navigate('Login');
+      });
   };
 
   return (
@@ -33,6 +46,13 @@ const Register = ({ navigation }) => {
           <>
             <View style={styles.Form}>
               {/* <Input placeholder={'Your full name'} label='Name' /> */}
+              <Input
+                placeholder={'Your full name'}
+                label='Full name'
+                onChangeText={handleChange('name')}
+                onBlur={handleBlur('name')}
+                value={values.name}
+              />
               <Input
                 placeholder={'Your email address'}
                 label='Address'

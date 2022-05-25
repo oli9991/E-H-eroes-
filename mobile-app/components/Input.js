@@ -1,5 +1,5 @@
 import React from 'react';
-import theme from '../style.js';
+import theme, { colors } from '../style.js';
 import {
   StyleSheet,
   TextInput,
@@ -13,6 +13,7 @@ const Input = ({ placeholder, label, value, changeValue, ...props }) => {
     <View style={styles.Container}>
       <Text style={[styles.Label, theme.Base]}> {label}</Text>
       <TextInput
+        placeholderTextColor={colors.disabled}
         style={[styles.Input, theme.Base]}
         onChangeText={changeValue}
         value={value}

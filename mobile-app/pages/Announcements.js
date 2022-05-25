@@ -1,69 +1,48 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
   StyleSheet,
-  Image,
   Text,
   View,
-  ImageBackground,
   TouchableOpacity,
-  FlatList,
   ScrollView,
+  Linking,
+  Alert,
 } from 'react-native';
-import { Icon } from 'react-native-elements';
 import Header from '../components/Header.js';
 import { AuthenticatedUserContext } from '../providers/AuthenticatedUserProvider.js';
 import theme, { colors } from '../style.js';
+import { db } from '../utils/firebase.js';
+import { collection, getDocs } from 'firebase/firestore/lite';
 
-export default function Announcements({ navigation }) {
+export default function Announcements({ navigation, ...props }) {
   const { user, setUser } = useContext(AuthenticatedUserContext);
+  const [announcements, setList] = useState([]);
 
-  const list = [
-    {
-      id: 0,
-      title: 'Donna Regali',
-      location: 'Saint Bernard Hospital, Angel Street 21',
-      info: 'Donna needs donations for AB blood type. She has been in a car accident and has three previous incidents.',
-      bloodInfo: 'A(I), Rh+',
-      fullInfo:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas et luctus turpis. Nam fermentum a dolor eget semper. Vestibulum eu erat id ante fermentum efficitur eu at ligula. Ut gravida orci in cursus pellentesque. Proin a malesuada quam. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nulla facilisi. Morbi placerat justo in purus ultricies accumsan.',
-    },
-    {
-      id: 1,
-      title: 'Donna Regali',
-      location: 'Saint Bernard Hospital, Angel Street 21',
-      info: 'Donna needs donations for AB blood type. She has been in a car accident and has three previous incidents.',
-      bloodInfo: 'A(I), Rh+',
-      fullInfo:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas et luctus turpis. Nam fermentum a dolor eget semper. Vestibulum eu erat id ante fermentum efficitur eu at ligula. Ut gravida orci in cursus pellentesque. Proin a malesuada quam. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nulla facilisi. Morbi placerat justo in purus ultricies accumsan.',
-    },
-    {
-      id: 2,
-      title: 'Donna Regali',
-      location: 'Saint Bernard Hospital, Angel Street 21',
-      info: 'Donna needs donations for AB blood type. She has been in a car accident and has three previous incidents.',
-      bloodInfo: 'A(I), Rh+',
-      fullInfo:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas et luctus turpis. Nam fermentum a dolor eget semper. Vestibulum eu erat id ante fermentum efficitur eu at ligula. Ut gravida orci in cursus pellentesque. Proin a malesuada quam. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nulla facilisi. Morbi placerat justo in purus ultricies accumsan.',
-    },
-    {
-      id: 3,
-      title: 'Donna Regali',
-      location: 'Saint Bernard Hospital, Angel Street 21',
-      info: 'Donna needs donations for AB blood type. She has been in a car accident and has three previous incidents.',
-      bloodInfo: 'A(I), Rh+',
-      fullInfo:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas et luctus turpis. Nam fermentum a dolor eget semper. Vestibulum eu erat id ante fermentum efficitur eu at ligula. Ut gravida orci in cursus pellentesque. Proin a malesuada quam. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nulla facilisi. Morbi placerat justo in purus ultricies accumsan.',
-    },
-    {
-      id: 4,
-      title: 'Donna Regali',
-      location: 'Saint Bernard Hospital, Angel Street 21',
-      info: 'Donna needs donations for AB blood type. She has been in a car accident and has three previous incidents.',
-      bloodInfo: 'A(I), Rh+',
-      fullInfo:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas et luctus turpis. Nam fermentum a dolor eget semper. Vestibulum eu erat id ante fermentum efficitur eu at ligula. Ut gravida orci in cursus pellentesque. Proin a malesuada quam. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nulla facilisi. Morbi placerat justo in purus ultricies accumsan.',
-    },
-  ];
+  const Read = async () => {
+    const coll = collection(db, 'announcements');
+    const snapshot = await getDocs(coll);
+    const final = snapshot.docs.map((d) => d.data());
+
+    setList(final);
+  };
+
+  const handlePress = async (url) => {
+    // Checking if the link is supported for links with custom URL scheme.
+    const supported = await Linking.canOpenURL();
+    Alert.alert(url);
+
+    if (supported) {
+      // Opening the link with some app, if the URL scheme is "http" the web link should be opened
+      // by some browser in the mobile
+      await Linking.openURL(url);
+    } else {
+      Alert.alert(`Don't know how to open this URL: ${url}`);
+    }
+  };
+
+  useEffect(() => {
+    Read();
+  }, [props.route.params]);
 
   if (!user) {
     navigation.navigate('Start');
@@ -75,22 +54,41 @@ export default function Announcements({ navigation }) {
         onAdd={() => navigation.navigate('AddAnnouncement')}
       />
       <ScrollView style={styles.List}>
-        {list &&
-          list.map((item, index) => (
+        {announcements &&
+          announcements.map((item, index) => (
             <View style={styles.Card} key={index}>
+              <View style={styles.Frame6}>
+                <Text style={[theme.Title, styles.Title]}>{item.title}</Text>
+                <Text style={theme.base}>
+                  <Text
+                    style={[theme.Base, styles.Location]}
+                    onPress={() => {
+                      handlePress(
+                        'https://www.google.com/maps/search/' +
+                          encodeURI(item.location)
+                      );
+                    }}
+                  >
+                    {item.location}
+                  </Text>
+                </Text>
+              </View>
+              <View style={styles.Frame6}>
+                <Text style={[theme.ButtonText, styles.Info]}>
+                  Short Information
+                </Text>
+                <Text style={theme.base}>{item.shortInfo}</Text>
+              </View>
+              <View style={styles.Frame6}>
+                <Text style={[theme.ButtonText, styles.Info]}>Blood Type</Text>
+                <Text style={theme.base}>
+                  {item.bloodType}, {item.rh}
+                </Text>
+              </View>
               <TouchableOpacity
                 onPress={() => navigation.navigate('Announcement', { item })}
               >
-                <View style={styles.Frame6}>
-                  <Text style={[theme.Title, styles.Title]}>{item.title}</Text>
-                  <Text style={theme.base}>{item.location}</Text>
-                </View>
-                <View style={styles.Frame6}>
-                  <Text style={[theme.ButtonText, styles.Info]}>
-                    Short Information
-                  </Text>
-                  <Text style={theme.base}>{item.info}</Text>
-                </View>
+                <Text style={[theme.BaseBold, styles.MoreInfo]}>More info</Text>
               </TouchableOpacity>
             </View>
           ))}
@@ -156,6 +154,13 @@ const styles = StyleSheet.create({
   },
 
   Title: {
-    marginBottom: 8,
+    // marginBottom: 8,
+  },
+  Location: {
+    color: colors.blue,
+    // fontWeight: 600,
+  },
+  MoreInfo: {
+    color: colors.orange,
   },
 });
