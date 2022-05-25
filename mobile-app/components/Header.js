@@ -2,17 +2,19 @@ import { Icon } from 'react-native-elements';
 import { View, Text, StyleSheet } from 'react-native';
 import theme, { colors } from '../style.js';
 import { useNavigation } from '@react-navigation/native';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faBars } from '@fortawesome/free-solid-svg-icons/faBars';
+import { faCirclePlus } from '@fortawesome/free-solid-svg-icons/faCirclePlus';
+// import Ionicons from '@expo/vector-icons/Ionicons';
 
 const Header = (props) => {
   const navigation = useNavigation();
   return (
     <View style={styles.Header} {...props}>
       <View>
-        <Icon
-          name='menu-outline'
-          type='ionicon'
-          color={colors.black}
-          size={42}
+        <FontAwesomeIcon
+          icon={faBars}
+          size={40}
           styles={{
             marginRight: 16,
             flex: 1,
@@ -24,10 +26,9 @@ const Header = (props) => {
       </View>
       <Text style={[styles.PageTitle, theme.Subtitle]}>{props.title}</Text>
       <View>
-        <Icon
-          reverse
-          size={20}
-          name='plus'
+        <FontAwesomeIcon
+          size={40}
+          icon={faCirclePlus}
           type='feather'
           color={colors.blue}
           styles={{ width: 32, height: 32, flex: 1 }}
@@ -46,7 +47,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingTop: 10,
+    paddingTop: 24,
     paddingBottom: '5%',
     paddingRight: 10,
     paddingLeft: 10,

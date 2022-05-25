@@ -1,4 +1,5 @@
-import React from 'react';
+import { collection, doc, getDocs, getDoc } from 'firebase/firestore/lite';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   Image,
@@ -12,20 +13,48 @@ import {
 import { Icon } from 'react-native-elements';
 import Header from '../components/Header.js';
 import theme, { colors } from '../style.js';
+import { db } from '../utils/firebase.js';
+import { prettyDate } from '../utils/functions.js';
 
-export default function Donations({ navigation }) {
-  const list = [
-    {
-      title: 'Dec 28th 2021 at 13:00 ',
-      location: 'Saint Bernard Hospital, Angel Street 21',
-      info: 'Elenne Gork.',
-    },
-    {
-      title: 'Dec 28th 2021 at 13:00 ',
-      location: 'Saint Bernard Hospital, Angel Street 21',
-      info: 'Elenne Gork.',
-    },
-  ];
+export default function Donations({ navigation, ...props }) {
+  const [donations, setList] = useState([]);
+
+  const getAnnouncement = async (id) => {
+    if (id) {
+      const docRef = doc(db, 'announcements', id);
+      const data = await getDoc(docRef);
+      const result = data.data();
+
+      console.log(result);
+
+      return result;
+    }
+    return null;
+  };
+
+  const Read = async () => {
+    const coll = collection(db, 'donations');
+    const snapshot = await getDocs(coll);
+    const final = await Promise.all(
+      snapshot.docs
+        .map((d) => d.data())
+        .map(async (e) => {
+          return {
+            ...e,
+            timeslot: prettyDate(new Date(e.timeslot.seconds)),
+            announcement:
+              e.announcement && (await getAnnouncement(e.announcement.id)),
+          };
+        })
+    );
+
+    setList(final);
+  };
+
+  useEffect(() => {
+    Read();
+  }, [props.route.params]);
+
   return (
     <View style={styles.Container}>
       <Header
@@ -33,22 +62,26 @@ export default function Donations({ navigation }) {
         onAdd={() => navigation.navigate('Appointment')}
       />
       <ScrollView style={styles.List}>
-        {list &&
-          list.map((item, index) => (
+        {donations &&
+          donations.map((item, index) => (
             <View style={styles.Card} key={index}>
               <TouchableOpacity>
                 <View style={styles.Frame6}>
                   <Text style={[theme.Subtitle, styles.Title]}>
-                    {item.title}
+                    {item.location}
                   </Text>
-                  <Text style={theme.base}>{item.location}</Text>
+                  <Text style={theme.base}>{item.timeslot}</Text>
                 </View>
-                <View style={styles.Frame7}>
-                  <Text style={[theme.ButtonText, styles.Info]}>
-                    Donated for
-                  </Text>
-                  <Text style={theme.base}>{item.info}</Text>
-                </View>
+                {item.announcement && (
+                  <View style={styles.Frame7}>
+                    <Text style={[theme.ButtonText, styles.Info]}>
+                      Donated for
+                    </Text>
+                    <Text style={theme.base}>
+                      {item.announcement && item.announcement.title}
+                    </Text>
+                  </View>
+                )}
               </TouchableOpacity>
             </View>
           ))}

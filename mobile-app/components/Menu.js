@@ -4,6 +4,8 @@ import { useNavigation } from '@react-navigation/native';
 import theme, { colors } from '../style.js';
 import { Icon } from 'react-native-elements';
 import { signOut, getAuth } from 'firebase/auth';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faClose } from '@fortawesome/free-solid-svg-icons/faClose';
 
 export default function SideMenu() {
   const navigation = useNavigation();
@@ -25,9 +27,8 @@ export default function SideMenu() {
             <Text style={theme.Title}>{user.displayName || user.email}</Text>
           </View>
         </View>
-        <Icon
-          name='close-outline'
-          type='ionicon'
+        <FontAwesomeIcon
+          icon={faClose}
           color={colors.black}
           size={42}
           styles={{

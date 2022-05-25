@@ -11,7 +11,6 @@ import {
 } from '@expo-google-fonts/outfit';
 
 import {
-  useFonts as useFraunces,
   Fraunces_700Bold,
   Fraunces_600SemiBold,
 } from '@expo-google-fonts/fraunces';
@@ -46,11 +45,11 @@ export default function App() {
   const { user } = useContext(AuthenticatedUserContext);
 
   const customFonts = {
-    Fraunces_700Bold,
     Fraunces_600SemiBold,
+    Fraunces_700Bold,
     Outfit_400Regular,
-    Outfit_600SemiBold,
     Outfit_500Medium,
+    Outfit_600SemiBold,
     Outfit_700Bold,
   };
 
@@ -86,7 +85,7 @@ export default function App() {
   return (
     <AuthenticatedUserProvider>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName={user ? 'Donations' : 'Start'}>
+        <Stack.Navigator initialRouteName={user ? 'Donations' : 'Appointment'}>
           <Stack.Screen name='Home' component={HomeScreen} />
           <Stack.Screen
             name='Announcements'

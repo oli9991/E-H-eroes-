@@ -1,10 +1,16 @@
-import React from 'react';
-import { StyleSheet, Image, Text, View, ImageBackground } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Image, Text, View, Button, Platform } from 'react-native';
 import CustomButton from '../../components/Button.js';
+import CalendarInput from '../../components/CalendarInput.js';
 import Input from '../../components/Input.js';
-import theme from '../../style.js';
+import theme, { colors } from '../../style.js';
+import { Formik } from 'formik';
 
 function Appoitment({ navigation }) {
+  const handleNext = (values) => {
+    navigation.navigate('Form1', { form: values });
+  };
+
   return (
     <View style={styles.Container}>
       <View style={styles.Welcome}>
@@ -12,21 +18,51 @@ function Appoitment({ navigation }) {
           Schedule blood donation
         </Text>
         <Text style={[theme.Base, styles.Txt145]}>
-          We thank you for your kind gesture. We hope lives will be saved with
+          We thank you for your kind gesture. We hoper lives will be saved with
           your donation.
         </Text>
       </View>
-      <View style={styles.Form}>
-        <Input placeholder={'Your full name'} label='Full Name' />
-        <Input placeholder={'Email address'} label='Email' />
-        <Input placeholder={'18-90'} label='Age' keyboardType='numeric' />
-        <Input placeholder={'Choose a date'} label='Time Slot' />
-      </View>
-
-      <CustomButton
-        title={'Next'}
-        onPress={() => navigation.navigate('Form1')}
-      />
+      <Formik initialValues={{ timeslot: new Date() }} onSubmit={handleNext}>
+        {({
+          handleChange,
+          handleBlur,
+          handleSubmit,
+          values,
+          setFieldValue,
+        }) => (
+          <>
+            <View style={styles.Form}>
+              <Input
+                placeholder={'Your full name'}
+                label='Full Name'
+                onChangeText={handleChange('fullname')}
+                onBlur={handleBlur('fullname')}
+                value={values.fullname}
+              />
+              <Input
+                placeholder={'Email address'}
+                label='Email'
+                onChangeText={handleChange('email')}
+                onBlur={handleBlur('email')}
+                value={values.email}
+              />
+              <Input
+                placeholder={'18-90'}
+                label='Age'
+                onChangeText={handleChange('age')}
+                onBlur={handleBlur('age')}
+                value={values.age}
+              />
+              <CalendarInput
+                label='Time slot'
+                setDate={(v) => setFieldValue('timeslot', v)}
+                date={values.timeslot}
+              />
+            </View>
+            <CustomButton title={'Next'} onPress={handleSubmit} />
+          </>
+        )}
+      </Formik>
     </View>
   );
 }
@@ -35,7 +71,7 @@ const styles = StyleSheet.create({
   Container: {
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'space-between',
+    justifyContent: 'start',
     alignItems: 'center',
     flex: 1,
     paddingTop: 63,
@@ -78,6 +114,7 @@ const styles = StyleSheet.create({
     paddingLeft: '5%',
     paddingRight: '5%',
     width: '100%',
+    paddingBottom: 100,
   },
   Txt145: {
     color: 'rgba(0,0,0,1)',
@@ -107,6 +144,9 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     justifyContent: 'center',
     width: '100%',
+  },
+  Button: {
+    marginTop: 1,
   },
 });
 

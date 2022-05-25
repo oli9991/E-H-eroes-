@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Image, Text, View, ImageBackground } from 'react-native';
-import { CheckBox } from 'react-native-elements';
+import Checkbox from 'expo-checkbox';
 import CustomButton from '../../components/Button.js';
 import Input from '../../components/Input.js';
 import theme from '../../style.js';
@@ -15,6 +15,8 @@ function Form1({ navigation }) {
     'Are you smocking?',
     'You have recently consumed alcohol?',
   ];
+  const [toggleCheckBox, setToggleCheckBox] = useState(false);
+
   return (
     <View style={styles.Container}>
       <View style={styles.Welcome}>
@@ -25,13 +27,15 @@ function Form1({ navigation }) {
       <View style={styles.Form}>
         {questions &&
           questions.map((item, index) => (
-            <CheckBox
-              key={index}
-              title={item}
-              textStyle={[theme.Base, styles.TextCheckbox]}
-              containerStyle={styles.Checkbox}
-              //   iconRight
-            />
+            <View key={index} style={styles.Row}>
+              <Checkbox
+                disabled={false}
+                value={toggleCheckBox}
+                onValueChange={(newValue) => setToggleCheckBox(newValue)}
+                style={styles.Checkbox}
+              />
+              <Text style={[theme.Base]}>{item}</Text>
+            </View>
           ))}
       </View>
 
@@ -88,31 +92,23 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
     width: '100%',
-    // marginLeft: '5%',
-    // marginRight: '5%',
   },
   Txt145: {
-    // color: 'rgba(0,0,0,1)',
     textAlign: 'left',
     width: '100%',
-    // marginBottom: 20,
-    // marginRight: 12,
-  },
-
-  TextCheckbox: {
-    // color: 'rgba(0,0,0,1)',
-    textAlign: 'left',
-    // marginBottom: 20,
-    // marginRight: 12,
   },
   Checkbox: {
-    borderWidth: 0,
-    backgroundColor: '#fff',
-    // display: 'flex',
-    // flexDirection: 'row',
-    // justifyContent: 'flex-start',
-    // width: '90%',
-    // alignItems: 'flex-start',
+    marginRight: 12,
+  },
+  Row: {
+    display: 'flex',
+    width: '90%',
+    marginLeft: '5%',
+    paddingRight: '5%',
+    flexDirection: 'row',
+    justifyContent: 'start',
+    alignContent: 'center',
+    marginBottom: 12,
   },
 });
 
