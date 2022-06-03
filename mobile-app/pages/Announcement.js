@@ -3,10 +3,21 @@ import { View, Text, StyleSheet } from 'react-native';
 import theme, { colors } from '../style.js';
 import { useNavigation } from '@react-navigation/native';
 import CustomButton from '../components/Button.js';
+import { collection, doc, getDoc } from 'firebase/firestore/lite';
+import { db } from '../utils/firebase.js';
 
 const Announcement = (props) => {
   const { item } = props.route.params;
   const navigation = useNavigation();
+
+  const handleDonate = async () => {
+    navigation.navigate('Appointment', {
+      form: {
+        announcement: doc(db, 'announcements', item.id),
+        location: item.location,
+      },
+    });
+  };
   return (
     <View style={styles.Info1}>
       <View style={styles.Frame6}>
@@ -26,7 +37,7 @@ const Announcement = (props) => {
       <View style={styles.Frame6}>
         <CustomButton
           style={styles.Button}
-          onPress={() => navigation.navigate('Appointment')}
+          onPress={handleDonate}
           title={`Schedule donation`}
         />
       </View>

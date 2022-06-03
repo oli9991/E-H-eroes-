@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Image, Text, View, ImageBackground } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import CustomButton from '../components/Button.js';
 import theme, { colors } from '../style.js';
 

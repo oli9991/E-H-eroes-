@@ -1,10 +1,9 @@
-import { Icon } from 'react-native-elements';
-import { View, Text, StyleSheet } from 'react-native';
-import theme, { colors } from '../style.js';
-import { useNavigation } from '@react-navigation/native';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons/faBars';
 import { faCirclePlus } from '@fortawesome/free-solid-svg-icons/faCirclePlus';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { useNavigation } from '@react-navigation/native';
+import { StyleSheet, Text, View } from 'react-native';
+import theme, { colors } from '../style.js';
 // import Ionicons from '@expo/vector-icons/Ionicons';
 
 const Header = (props) => {
@@ -14,7 +13,7 @@ const Header = (props) => {
       <View>
         <FontAwesomeIcon
           icon={faBars}
-          size={40}
+          size={36}
           styles={{
             marginRight: 16,
             flex: 1,
@@ -48,7 +47,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingTop: 24,
-    paddingBottom: '5%',
+    paddingBottom: '10%',
     paddingRight: 10,
     paddingLeft: 10,
     width: '100%',

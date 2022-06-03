@@ -5,7 +5,6 @@ import {
   View,
   TouchableOpacity,
   ScrollView,
-  Linking,
   Alert,
 } from 'react-native';
 import Header from '../components/Header.js';
@@ -13,31 +12,31 @@ import { AuthenticatedUserContext } from '../providers/AuthenticatedUserProvider
 import theme, { colors } from '../style.js';
 import { db } from '../utils/firebase.js';
 import { collection, getDocs } from 'firebase/firestore/lite';
+import * as Linking from 'expo-linking';
 
 export default function Announcements({ navigation, ...props }) {
-  const { user, setUser } = useContext(AuthenticatedUserContext);
+  const { user } = useContext(AuthenticatedUserContext);
   const [announcements, setList] = useState([]);
 
   const Read = async () => {
     const coll = collection(db, 'announcements');
     const snapshot = await getDocs(coll);
-    const final = snapshot.docs.map((d) => d.data());
-
+    const final = snapshot.docs.map((d) => ({ ...d.data(), id: d.id }));
     setList(final);
   };
 
-  const handlePress = async (url) => {
+  const handlePress = (url) => {
     // Checking if the link is supported for links with custom URL scheme.
-    const supported = await Linking.canOpenURL();
-    Alert.alert(url);
+    // Alert.alert(url);
+    // console.log(supported, url);
 
-    if (supported) {
-      // Opening the link with some app, if the URL scheme is "http" the web link should be opened
-      // by some browser in the mobile
-      await Linking.openURL(url);
-    } else {
-      Alert.alert(`Don't know how to open this URL: ${url}`);
-    }
+    // if (supported) {
+    // Opening the link with some app, if the URL scheme is "http" the web link should be opened
+    // by some browser in the mobile
+    Linking.openURL(url);
+    // } else {
+    //   Alert.alert(`Don't know how to open this URL: ${url}`);
+    // }
   };
 
   useEffect(() => {
@@ -62,12 +61,11 @@ export default function Announcements({ navigation, ...props }) {
                 <Text style={theme.base}>
                   <Text
                     style={[theme.Base, styles.Location]}
-                    onPress={() => {
+                    onPress={() =>
                       handlePress(
-                        'https://www.google.com/maps/search/' +
-                          encodeURI(item.location)
-                      );
-                    }}
+                        'https://www.google.com/maps/search/' + item.location
+                      )
+                    }
                   >
                     {item.location}
                   </Text>

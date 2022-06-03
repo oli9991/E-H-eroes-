@@ -39,9 +39,10 @@ export default function Donations({ navigation, ...props }) {
       snapshot.docs
         .map((d) => d.data())
         .map(async (e) => {
+          console.log(e);
           return {
             ...e,
-            timeslot: prettyDate(new Date(e.timeslot.seconds)),
+            timeslot: prettyDate(new Date(e.timeslot.seconds ?? e.timeslot)),
             announcement:
               e.announcement && (await getAnnouncement(e.announcement.id)),
           };
@@ -68,7 +69,7 @@ export default function Donations({ navigation, ...props }) {
               <TouchableOpacity>
                 <View style={styles.Frame6}>
                   <Text style={[theme.Subtitle, styles.Title]}>
-                    {item.location}
+                    {item.location || 'Centru de donat'}
                   </Text>
                   <Text style={theme.base}>{item.timeslot}</Text>
                 </View>

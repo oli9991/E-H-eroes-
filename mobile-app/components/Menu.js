@@ -1,11 +1,10 @@
-import React, { useEffect } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import theme, { colors } from '../style.js';
-import { Icon } from 'react-native-elements';
-import { signOut, getAuth } from 'firebase/auth';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faClose } from '@fortawesome/free-solid-svg-icons/faClose';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { useNavigation } from '@react-navigation/native';
+import { getAuth, signOut } from 'firebase/auth';
+import React, { useEffect } from 'react';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import theme, { colors } from '../style.js';
 
 export default function SideMenu() {
   const navigation = useNavigation();
@@ -85,7 +84,7 @@ export default function SideMenu() {
             </TouchableOpacity>
           </View>
         </View>
-        <View
+        {/* <View
           style={[
             styles.ParticlesMenuItem,
             route === 'Stocks' && styles.ActiveMenuItem,
@@ -106,7 +105,7 @@ export default function SideMenu() {
               </Text>
             </TouchableOpacity>
           </View>
-        </View>
+        </View> */}
         <View style={[styles.ParticlesMenuItem]}>
           <View style={styles.Item}>
             <TouchableOpacity

@@ -1,14 +1,20 @@
-import React, { useState } from 'react';
-import { StyleSheet, Image, Text, View, Button, Platform } from 'react-native';
+import { Formik } from 'formik';
+import React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
 import CustomButton from '../../components/Button.js';
 import CalendarInput from '../../components/CalendarInput.js';
 import Input from '../../components/Input.js';
-import theme, { colors } from '../../style.js';
-import { Formik } from 'formik';
+import theme from '../../style.js';
 
-function Appoitment({ navigation }) {
+function Appoitment({ navigation, ...props }) {
   const handleNext = (values) => {
-    navigation.navigate('Form1', { form: values });
+    navigation.navigate('Form1', {
+      form: {
+        ...props.route.params.form,
+        ...values,
+        timeslot: new Date(values.timeslot).toISOString(),
+      },
+    });
   };
 
   return (
@@ -22,7 +28,15 @@ function Appoitment({ navigation }) {
           your donation.
         </Text>
       </View>
-      <Formik initialValues={{ timeslot: new Date() }} onSubmit={handleNext}>
+      <Formik
+        initialValues={{
+          timeslot: new Date(),
+          fullname: 'Name',
+          email: 'email@gmail.com',
+          age: '19',
+        }}
+        onSubmit={handleNext}
+      >
         {({
           handleChange,
           handleBlur,

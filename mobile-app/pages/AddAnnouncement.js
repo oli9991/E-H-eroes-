@@ -55,7 +55,7 @@ function AddAnnouncement({ navigation }) {
                   onBlur={handleBlur('fullInfo')}
                   value={values.fullInfo}
                   multiline
-                  maxLength={400}
+                  maxLength={300}
                 />
                 <SimpleInput
                   placeholder={'Location'}

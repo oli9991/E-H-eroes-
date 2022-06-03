@@ -45,6 +45,6 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   Multiline: {
-    height: 200,
+    height: 100,
   },
 });
